@@ -1,0 +1,39 @@
+name : CompilationTest
+
+on:
+  push: 
+    branches : [main]
+
+jobs:
+    Compilation_Run:
+     runs-on: ubuntu-latest
+
+     steps:
+     - name: Checkout
+       uses : actions/checkout@v4
+     - name: UpdateSudo
+       run : sudo apt update
+     - name: BuildEssentials
+       run: sudo apt install build-essential
+     - name: compile_program
+       run : g++ ./main.cpp -o main.out 
+     - name: Save_Binary
+       uses: actions/upload-artifact@v4
+       with:
+        name: main_binary
+        path: main.out  
+
+    Running:
+     needs: Compilation_Run
+     runs-on: ubuntu-latest
+     steps:
+     - name: Download_binary
+       uses : actions/download-artifact@v4
+       with:
+        name: main_binary
+     - name : RUN_MAIN
+       run : ./main.out
+     - name: message
+       run : echo "MAIN WAS EXECUTED"
+
+    
