@@ -32,7 +32,7 @@ jobs:
        with:
         name: main_binary
      - name : RUN_MAIN
-       run : ./main.out
+       run : sudo ./main.out
      - name: message
        run : echo "MAIN WAS EXECUTED"
 
