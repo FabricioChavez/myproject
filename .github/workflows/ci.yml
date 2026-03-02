@@ -31,8 +31,10 @@ jobs:
        uses : actions/download-artifact@v4
        with:
         name: main_binary
+     - name: Give permission
+       run: chmod +x ./main.out   
      - name : RUN_MAIN
-       run : sudo ./main.out
+       run : ./main.out
      - name: message
        run : echo "MAIN WAS EXECUTED"
 
