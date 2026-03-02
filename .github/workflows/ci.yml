@@ -30,7 +30,7 @@ jobs:
      - name: Download_binary
        uses : actions/download-artifact@v4
        with:
-        name: main_binar
+        name: main_binary
      - name : RUN_MAIN
        run : ./main.out
      - name: message
