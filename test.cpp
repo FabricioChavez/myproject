@@ -11,7 +11,7 @@ int main() {
     assert(suma(-1,1) == 0);
 
     // Tests raiz
-    assert(raiz_entera(0) == 0);
+    assert(raiz_entera(0) == 3);//Breaking change 
     assert(raiz_entera(4) == 2);
     assert(raiz_entera(10) == 3);
     assert(raiz_entera(-5) == -1);
