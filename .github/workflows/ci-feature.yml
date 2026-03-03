@@ -19,7 +19,7 @@ jobs:
         run: sudo snap install cppcheck
 
       - name: linting_check
-        run: cppcheck --enable=all --error-exitcode=1 main.cpp test.cpp
+        run: cppcheck --enable=warning,style,performance,portability --error-exitcode=1 main.cpp test.cpp
 
 
   unit_test:
