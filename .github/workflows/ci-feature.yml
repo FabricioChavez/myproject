@@ -1,0 +1,59 @@
+name: feature-pipeline
+
+on: 
+  pull_request:
+    branches: [develop]
+
+jobs: 
+
+  linting:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: UpdateSudo
+        run: sudo apt update  
+
+      - name: Lintern_Install
+        run: sudo snap install cppcheck
+
+      - name: linting_check
+        run: cppcheck --enable=all --error-exitcode=1 main.cpp test.cpp
+
+
+  unit_test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Compiling_test
+        run: g++ main.cpp test.cpp -o test.out
+
+      - name: Run_Test
+        run: ./test.out 
+
+
+  Coverage:
+    needs: [linting, unit_test]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Converage_compilation
+        run: g++ -fprofile-arcs -ftest-coverage -O0 main.cpp test.cpp -o test
+
+      - name: Run_coverage_test
+        run: ./test
+
+      - name: Check_Coverage
+        run: |
+          coverage=$(gcov test-main.gcno | grep "Lines executed" | awk '{print $3}' | tr -d '%')
+          echo "Coverage: $coverage%"
+
+          if (( $(echo "$coverage < 80" | bc -l) )); then
+            echo "Coverage below 80%"
+            exit 1
+          fi
